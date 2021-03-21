@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Header.module.scss';
 import { useHistory } from 'react-router-dom';
-import { ReactComponent as UserAvatar } from '../../assets/icons/Base/Fill/Components/Header/Avatars/Text/Small.svg';
+import { ReactComponent as UserAvatar } from '../../assets/icons/Small.svg';
 import { feedUrl, faqUrl, userUrl } from '../../constants/urls';
 
 type HeaderProps = unknown;

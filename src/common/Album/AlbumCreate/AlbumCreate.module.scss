@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #FFFFFF;
+  border: 2px dashed #DBDBDB;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+
+  :nth-child(2) {
+    margin-left: 13px;
+  }
+
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 24px;
+  color: #AFAFAF;
+}
