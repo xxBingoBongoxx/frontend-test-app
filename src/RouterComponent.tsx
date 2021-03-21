@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import FAQ from './pages/faq/FAQ';
 import Profile from './pages/profile/Profile';
 import Feed from './pages/feed/Feed';
+import { feedUrl, faqUrl, userUrl } from './constants/urls';
 
 type Props = unknown;
 
@@ -10,13 +11,13 @@ const RouterComponent: React.FC<Props> = () => {
   return (
     <Router>
       <Switch>
-        <Route exact path="/faq">
+        <Route exact path={faqUrl}>
           <FAQ />
         </Route>
-        <Route exact path="/profile">
+        <Route exact path={userUrl}>
           <Profile />
         </Route>
-        <Route exact path="/">
+        <Route exact path={feedUrl}>
           <Feed />
         </Route>
         <Route exact path="*">
