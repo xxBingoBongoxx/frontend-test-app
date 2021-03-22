@@ -1,49 +1,44 @@
 import React from 'react';
 import styles from './TabMenu.module.scss';
 
-type TabProps = {
-  onClick?: () => void;
-  children: React.ReactNode;
-};
-
-type TabItemProps = {
-  label: string;
-  count: number;
-  disabled?: boolean;
-};
-
 type TabPanelProps = {
-  index: number;
+  isSelected: boolean;
   children?: React.ReactNode;
 };
 
-export const Tabs: React.FC<TabProps> = ({ children, onClick }) => {
+type TabNavProps = {
+  tabs: { label: string; count: number }[];
+  selected: string;
+  setSelected: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export const TabNav: React.FC<TabNavProps> = ({ tabs, selected, setSelected, children }) => {
   return (
-    <div className={styles.tabMenu} onClick={onClick}>
-      {children}
+    <div className={styles.tabMenu}>
+      {tabs.map((tab) => {
+        const active = tab.label === selected;
+        if (active) {
+          return (
+            <div className={styles.tabItem} onClick={() => setSelected(tab.label)}>
+              <div className={styles.tabText}>{tab.label}</div>
+              <div className={styles.tabCount}>{tab.count}</div>
+            </div>
+          );
+        }
+        return (
+          <div className={styles.tabItemDisabled} onClick={() => setSelected(tab.label)}>
+            <div className={styles.tabTextDisabled}>{tab.label}</div>
+            <div className={styles.tabCountDisabled}>{tab.count}</div>
+          </div>
+        );
+      })}
     </div>
   );
 };
 
-export const Tab: React.FC<TabItemProps> = ({ label, count, disabled }) => {
-  if (disabled) {
-    return (
-      <div className={styles.tabItemDisabled}>
-        <div className={styles.tabTextDisabled}>{label}</div>
-        <div className={styles.tabCountDisabled}>{count}</div>
-      </div>
-    );
+export const TabPanel: React.FC<TabPanelProps> = ({ isSelected, children }) => {
+  if (isSelected) {
+    return <div className={styles.tabPanel}>{children}</div>;
   }
-  return (
-    <>
-      <div className={styles.tabItem}>
-        <div className={styles.tabText}>{label}</div>
-        <div className={styles.tabCount}>{count}</div>
-      </div>
-    </>
-  );
-};
-
-export const TabPanel: React.FC<TabPanelProps> = ({ index, children }) => {
-  return <div className={styles.tabPanel}>{children}</div>;
+  return null;
 };

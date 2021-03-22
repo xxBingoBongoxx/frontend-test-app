@@ -1,5 +1,5 @@
 import React from 'react';
-import './Skeleton.scss';
+import './AlbumSkeleton.scss';
 
 const AlbumSkeleton: React.FC = () => {
   return (

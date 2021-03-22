@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from '../../common/Header/Header';
+import Header from '../../common/Header';
 import styles from './Profile.module.scss';
 
 type Props = unknown;
