@@ -3,19 +3,77 @@ import Header from '../../common/Header';
 import { TabNav, TabPanel } from '../../common/TabMenu';
 import { Album, AlbumSkeleton, AlbumCreate } from '../../common/Album';
 import { Post, PostSkeleton } from '../../common/Post';
+import { Photo, useGetAlbumsQuery } from '../../generated/graphql';
 import styles from './Feed.module.scss';
-import { ReactComponent as AcuraAvatar } from '../../assets/icons/acuraAvatar.svg';
-import { useGetAlbumsQuery } from '../../generated/graphql';
 
 type Props = unknown;
 
+type AlbumWrapperProps = {
+  setAlbumsTotal: React.Dispatch<React.SetStateAction<number>>;
+};
+
+const AlbumWrapper: React.FC<AlbumWrapperProps> = ({ setAlbumsTotal }) => {
+  const { data, loading, error, fetchMore } = useGetAlbumsQuery({
+    variables: {
+      page: 1,
+      limit: 20,
+    },
+  });
+
+  if (loading) {
+    return (
+      <>
+        <AlbumCreate />
+        <AlbumSkeleton />
+        <AlbumSkeleton />
+      </>
+    );
+  }
+
+  if (data && data.albums && data.albums.data) {
+    setAlbumsTotal(data.albums.data.length);
+
+    return (
+      <>
+        <AlbumCreate />
+        {data.albums.data.map((album) => {
+          if (
+            album &&
+            album.id &&
+            album.title &&
+            album.user?.name &&
+            album.photos &&
+            album.photos.data &&
+            album.photos.data[0] &&
+            album.photos.data[0].thumbnailUrl
+          ) {
+            const { title } = album;
+            const { name } = album.user;
+            const { thumbnailUrl } = album.photos.data[0];
+
+            return (
+              <Album key={album.id} name={name} title={title} logo={thumbnailUrl} data={album.photos.data as Photo[]} />
+            );
+          }
+
+          return null;
+        })}
+      </>
+    );
+  }
+
+  if (error) {
+    return <div>Could not load data</div>;
+  }
+
+  return null;
+};
 const Feed: React.FC<Props> = () => {
   const [selected, setSelected] = React.useState<string>('Albums');
-
-  const { data, loading, error } = useGetAlbumsQuery();
+  const [albumsTotal, setAlbumsTotal] = React.useState<number>(0);
 
   const tabs = [
-    { label: 'Albums', count: 3 },
+    { label: 'Albums', count: albumsTotal },
     { label: 'Posts', count: 1 },
   ];
 
@@ -26,10 +84,7 @@ const Feed: React.FC<Props> = () => {
         <div className={styles.title}>Feed</div>
         <TabNav tabs={tabs} selected={selected} setSelected={setSelected} />
         <TabPanel isSelected={selected === tabs[0].label}>
-          <AlbumCreate />
-          <Album logo={<AcuraAvatar />} name="Ivan Ivanov" title="Acura Summer 2018" />
-          <AlbumSkeleton />
-          <Album logo={<AcuraAvatar />} name="Ivan Ivanov" title="Acura Summer 2018" />
+          <AlbumWrapper setAlbumsTotal={setAlbumsTotal} />
         </TabPanel>
         <TabPanel isSelected={selected === tabs[1].label}>
           <Post

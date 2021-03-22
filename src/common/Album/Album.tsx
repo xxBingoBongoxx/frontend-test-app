@@ -1,14 +1,16 @@
 import React from 'react';
 import styles from './Album.module.scss';
 import { ReactComponent as More } from '../../assets/icons/More.svg';
+import { Photo } from '../../generated/graphql';
 
 type AlbumProps = {
-  logo?: React.ReactNode;
   name: string;
   title: string;
+  logo: string;
+  data: Photo[];
 };
 
-const Album: React.FC<AlbumProps> = ({ logo, name, title }) => {
+const Album: React.FC<AlbumProps> = ({ name, title, logo, data }) => {
   const [showMore, setMore] = React.useState<boolean>(false);
 
   const handleClick = () => {
@@ -17,7 +19,7 @@ const Album: React.FC<AlbumProps> = ({ logo, name, title }) => {
 
   return (
     <div className={styles.album__container}>
-      <div className={styles.album__logo}>{logo ? logo : 'logo'}</div>
+      <img className={styles.album__logo} src={logo} alt="logo" />
       <div className={styles.album__textInfo}>
         <div className={styles.album__title}>{name}</div>
         <div className={styles.album__text}>{title}</div>

@@ -524,7 +524,10 @@ export enum CacheControlScope {
 }
 
 
-export type GetAlbumsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetAlbumsQueryVariables = Exact<{
+  page: Scalars['Int'];
+  limit: Scalars['Int'];
+}>;
 
 
 export type GetAlbumsQuery = (
@@ -541,7 +544,7 @@ export type GetAlbumsQuery = (
         { __typename?: 'PhotosPage' }
         & { data?: Maybe<Array<Maybe<(
           { __typename?: 'Photo' }
-          & Pick<Photo, 'title' | 'thumbnailUrl'>
+          & Pick<Photo, 'id' | 'title' | 'thumbnailUrl'>
         )>>> }
       )> }
     )>>>, links?: Maybe<(
@@ -562,8 +565,8 @@ export type GetAlbumsQuery = (
 
 
 export const GetAlbumsDocument = gql`
-    query getAlbums {
-  albums(options: {paginate: {page: 1, limit: 1}}) {
+    query getAlbums($page: Int!, $limit: Int!) {
+  albums(options: {paginate: {page: $page, limit: $limit}}) {
     data {
       id
       title
@@ -572,6 +575,7 @@ export const GetAlbumsDocument = gql`
       }
       photos {
         data {
+          id
           title
           thumbnailUrl
         }
@@ -604,10 +608,12 @@ export const GetAlbumsDocument = gql`
  * @example
  * const { data, loading, error } = useGetAlbumsQuery({
  *   variables: {
+ *      page: // value for 'page'
+ *      limit: // value for 'limit'
  *   },
  * });
  */
-export function useGetAlbumsQuery(baseOptions?: Apollo.QueryHookOptions<GetAlbumsQuery, GetAlbumsQueryVariables>) {
+export function useGetAlbumsQuery(baseOptions: Apollo.QueryHookOptions<GetAlbumsQuery, GetAlbumsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetAlbumsQuery, GetAlbumsQueryVariables>(GetAlbumsDocument, options);
       }

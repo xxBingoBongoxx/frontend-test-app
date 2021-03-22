@@ -1,5 +1,5 @@
-query getAlbums {
-    albums(options: { paginate: { page: 1, limit: 1 } }) {
+query getAlbums($page: Int!, $limit: Int!) {
+    albums(options: { paginate: { page: $page, limit: $limit } }) {
         data {
             id
             title
@@ -8,6 +8,7 @@ query getAlbums {
             }
             photos {
                 data {
+                    id
                     title
                     thumbnailUrl
                 }

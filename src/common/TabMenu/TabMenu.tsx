@@ -19,14 +19,14 @@ export const TabNav: React.FC<TabNavProps> = ({ tabs, selected, setSelected, chi
         const active = tab.label === selected;
         if (active) {
           return (
-            <div className={styles.tabItem} onClick={() => setSelected(tab.label)}>
+            <div key={tab.label} className={styles.tabItem} onClick={() => setSelected(tab.label)}>
               <div className={styles.tabText}>{tab.label}</div>
               <div className={styles.tabCount}>{tab.count}</div>
             </div>
           );
         }
         return (
-          <div className={styles.tabItemDisabled} onClick={() => setSelected(tab.label)}>
+          <div key={tab.label} className={styles.tabItemDisabled} onClick={() => setSelected(tab.label)}>
             <div className={styles.tabTextDisabled}>{tab.label}</div>
             <div className={styles.tabCountDisabled}>{tab.count}</div>
           </div>
