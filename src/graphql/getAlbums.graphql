@@ -1,0 +1,28 @@
+query getAlbums {
+    albums(options: { paginate: { page: 1, limit: 1 } }) {
+        data {
+            id
+            title
+            user {
+                name
+            }
+            photos {
+                data {
+                    title
+                    thumbnailUrl
+                }
+            }
+        }
+        links {
+            prev {
+                page: page
+            }
+            next {
+                page: page
+            }
+        }
+        meta {
+            totalCount
+        }
+    }
+}
