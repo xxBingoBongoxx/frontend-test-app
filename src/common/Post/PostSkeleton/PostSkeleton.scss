@@ -8,16 +8,21 @@
   }
 }
 
-.album__skeleton-item {
+.post__skeleton-item {
   display: flex;
+  flex-direction: column;
   padding: 20px;
-  align-items: center;
+  align-items: flex-start;
   background: #FFFFFF;
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.05), 0px 1px 4px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
 }
 
-.album__skeleton-logo::before {
+.post__skeleton-item > div:not(:first-child) {
+  margin-top: 12px;
+}
+
+.post__skeleton-name::before {
   content: "";
   position: absolute;
   top: 0;
@@ -28,37 +33,26 @@
   animation: loading 2s infinite linear;
 }
 
-.album__skeleton-logo {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: #f2f2f2;
-  position: relative;
-  overflow: hidden;
-}
-
-.album__skeleton-info {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-left: 20px;
-}
-
-p {
-  margin: 0 0 12px 0;
-}
-
-.album__skeleton-title {
+.post__skeleton-name {
   width: 50%;
-  height: 12px;
-  border-radius: 18px;
+  height: 10px;
+  border-radius: 8px;
   background: #f2f2f2;
   position: relative;
   overflow: hidden;
 }
 
-.album__skeleton-title::before {
+
+.post__skeleton-title {
+  width: 75%;
+  height: 16px;
+  border-radius: 8px;
+  background: #f2f2f2;
+  position: relative;
+  overflow: hidden;
+}
+
+.post__skeleton-title::before {
   content: "";
   position: absolute;
   top: 0;
@@ -69,17 +63,17 @@ p {
   animation: loading 2s infinite linear;
 }
 
-.album__skeleton-text {
+.post__skeleton-content {
   width: 85%;
-  height: 16px;
-  border-radius: 18px;
+  height: 10px;
+  border-radius: 8px;
   background: #f2f2f2;
   margin-top: 3px;
   position: relative;
   overflow: hidden;
 }
 
-.album__skeleton-text::before {
+.post__skeleton-content::before {
   content: "";
   position: absolute;
   top: 0;

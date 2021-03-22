@@ -2,13 +2,13 @@ import React from 'react';
 import styles from './Album.module.scss';
 import { ReactComponent as More } from '../../assets/icons/More.svg';
 
-type Album = {
+type AlbumProps = {
   logo?: React.ReactNode;
   name: string;
   title: string;
 };
 
-const Album: React.FC<Album> = ({ logo, name, title }) => {
+const Album: React.FC<AlbumProps> = ({ logo, name, title }) => {
   const [showMore, setMore] = React.useState<boolean>(false);
 
   const handleClick = () => {

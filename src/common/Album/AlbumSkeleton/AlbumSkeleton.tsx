@@ -3,13 +3,13 @@ import './AlbumSkeleton.scss';
 
 const AlbumSkeleton: React.FC = () => {
   return (
-    <div className="skeleton-item">
+    <div className="album__skeleton-item">
       <div>
-        <div className="skeleton-logo" />
+        <div className="album__skeleton-logo" />
       </div>
-      <div className="skeleton-info">
-        <p className="skeleton-title" />
-        <p className="skeleton-text" />
+      <div className="album__skeleton-info">
+        <p className="album__skeleton-title" />
+        <p className="album__skeleton-text" />
       </div>
     </div>
   );

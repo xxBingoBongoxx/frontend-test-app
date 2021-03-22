@@ -2,6 +2,7 @@ import React from 'react';
 import Header from '../../common/Header';
 import { TabNav, TabPanel } from '../../common/TabMenu';
 import { Album, AlbumSkeleton, AlbumCreate } from '../../common/Album';
+import { Post, PostSkeleton } from '../../common/Post';
 import styles from './Feed.module.scss';
 import { ReactComponent as AcuraAvatar } from '../../assets/icons/acuraAvatar.svg';
 
@@ -27,8 +28,37 @@ const Feed: React.FC<Props> = () => {
           <Album logo={<AcuraAvatar />} name="Ivan Ivanov" title="Acura Summer 2018" />
         </TabPanel>
         <TabPanel isSelected={selected === 'Posts'}>
-          <AlbumCreate />
-          <AlbumSkeleton />
+          <Post
+            name="Ivan Ivanov"
+            title="Title"
+            content="Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
+            totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi archit veritatis et quasi arc..."
+          />
+          <Post
+            name="Ivan Ivanov"
+            title="Title"
+            content="Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
+            totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi archit veritatis et quasi arc..."
+          />
+          <Post
+            name="Ivan Ivanov"
+            title="Title"
+            content="Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
+            totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi archit veritatis et quasi arc..."
+          />
+          <Post
+            name="Ivan Ivanov"
+            title="Title"
+            content="Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
+            totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi archit veritatis et quasi arc..."
+          />
+          <Post
+            name="Ivan Ivanov"
+            title="Title"
+            content="Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
+            totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi archit veritatis et quasi arc..."
+          />
+          <PostSkeleton />
         </TabPanel>
       </div>
     </>
