@@ -40,10 +40,16 @@ const ModalDelete: React.FC<ModalDeleteProps> = ({ setOpen, handleDelete }) => {
         <div className={styles.modal__deleteIcon}>
           <DeleteIcon />
         </div>
-        <div className={styles.modal__title}>DeleteIcon album</div>
+        <div className={styles.modal__title}>Delete album</div>
         <div className={styles.modal__subtitle}>Album will be permanently lost</div>
-        <button className={styles.modal__button} onClick={handleDelete}>
-          DeleteIcon
+        <button
+          className={styles.modal__button}
+          onClick={async () => {
+            await handleDelete();
+            handleClose();
+          }}
+        >
+          Delete
         </button>
       </div>
       <CloseIcon className={styles.modal__iconClose} onClick={handleClose} />
