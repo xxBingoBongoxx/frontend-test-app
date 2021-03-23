@@ -14,21 +14,21 @@ type ModalProps = {
 const Modal: React.FC<ModalProps> = ({ data, setOpen }) => {
   const [index, setIndex] = React.useState<number>(0);
 
-  const increment = () => {
+  const increment = React.useCallback(() => {
     if (index === data.length - 1) {
       setIndex(0);
       return;
     }
     setIndex((prevState) => prevState + 1);
-  };
+  }, [index, setIndex, data.length]);
 
-  const decrement = () => {
+  const decrement = React.useCallback(() => {
     if (index === 0) {
       setIndex(data.length - 1);
       return;
     }
     setIndex((prevState) => prevState - 1);
-  };
+  }, [index, setIndex, data.length]);
 
   const handleClose = React.useCallback(() => {
     const scrollY = document.body.style.top;

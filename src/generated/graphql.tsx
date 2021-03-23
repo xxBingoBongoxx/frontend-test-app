@@ -534,6 +534,10 @@ export type CreateAlbumMutation = (
   & { createAlbum?: Maybe<(
     { __typename?: 'Album' }
     & Pick<Album, 'id' | 'title'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'name'>
+    )> }
   )> }
 );
 
@@ -582,6 +586,9 @@ export const CreateAlbumDocument = gql`
   createAlbum(input: {userId: 1, title: $title}) {
     id
     title
+    user {
+      name
+    }
   }
 }
     `;

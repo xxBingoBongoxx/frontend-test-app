@@ -1,13 +1,14 @@
 import React, { FormEvent } from 'react';
-import { useCreateAlbumMutation } from '../../../generated/graphql';
+import { Album, Photo, useCreateAlbumMutation } from '../../../generated/graphql';
 import styles from './ModalAdd.module.scss';
 import { ReactComponent as Close } from '../../../assets/icons/Close.svg';
 
 type ModalAddProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  addNewAlbum: (album: Album) => void;
 };
 
-const ModalAdd: React.FC<ModalAddProps> = ({ setOpen }) => {
+const ModalAdd: React.FC<ModalAddProps> = ({ setOpen, addNewAlbum }) => {
   const [createAlbum] = useCreateAlbumMutation();
   const [title, setTitle] = React.useState<string>('');
 
@@ -41,10 +42,26 @@ const ModalAdd: React.FC<ModalAddProps> = ({ setOpen }) => {
     try {
       const response = await createAlbum({
         variables: {
-          title: title,
+          title,
         },
       });
-      if (response && response.data) {
+      if (response && response.data && response.data.createAlbum && response.data.createAlbum.user) {
+        const newAlbum = {
+          id: response.data.createAlbum.id,
+          title: title,
+          photos: {
+            data: [
+              {
+                title: 'Hello world',
+                thumbnailUrl: 'https://www.meme-arsenal.com/memes/c8752028f29368a56ada9f612d8b77f5.jpg',
+              },
+            ] as Photo[],
+          },
+          user: {
+            name: response.data.createAlbum.user.name,
+          },
+        } as Album;
+        addNewAlbum(newAlbum);
         handleClose();
       }
     } catch (err) {

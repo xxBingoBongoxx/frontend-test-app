@@ -2,8 +2,13 @@ import React from 'react';
 import styles from './AlbumAdd.module.scss';
 import { ReactComponent as Union } from '../../../assets/icons/Union.svg';
 import { ModalAdd } from '../../Modal';
+import { Album } from '../../../generated/graphql';
 
-const AlbumAdd: React.FC = () => {
+type AlbumAddProps = {
+  addNewAlbum: (album: Album) => void;
+};
+
+const AlbumAdd: React.FC<AlbumAddProps> = ({ addNewAlbum }) => {
   const [open, setOpen] = React.useState<boolean>(false);
 
   const openModal = () => {
@@ -22,7 +27,7 @@ const AlbumAdd: React.FC = () => {
           <div>Add album</div>
         </div>
       </div>
-      {open && <ModalAdd setOpen={setOpen} />}
+      {open && <ModalAdd setOpen={setOpen} addNewAlbum={addNewAlbum} />}
     </>
   );
 };

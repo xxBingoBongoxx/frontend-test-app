@@ -2,6 +2,7 @@ import React from 'react';
 import Header from '../../common/Header';
 import { TabNav, TabPanel } from '../../common/TabMenu';
 import { Album, AlbumSkeleton, AlbumAdd } from '../../common/Album';
+import { Album as AlbumType } from '../../generated/graphql';
 import { Post, PostSkeleton } from '../../common/Post';
 import { Photo, useGetAlbumsQuery } from '../../generated/graphql';
 import styles from './Feed.module.scss';
@@ -13,17 +14,33 @@ type AlbumWrapperProps = {
 };
 
 const AlbumWrapper: React.FC<AlbumWrapperProps> = ({ setAlbumsTotal }) => {
+  const [arrayOfAlbums, setArrayOfAlbums] = React.useState<AlbumType[]>([]);
+
   const { data, loading, error, fetchMore } = useGetAlbumsQuery({
     variables: {
       page: 1,
       limit: 20,
     },
+    onCompleted: () => {
+      if (data && data.albums && data.albums.data) {
+        setAlbumsTotal(data.albums.data.length);
+        setArrayOfAlbums(data.albums.data as AlbumType[]);
+      }
+    },
   });
+
+  React.useEffect(() => {
+    setAlbumsTotal(arrayOfAlbums.length);
+  }, [arrayOfAlbums, setAlbumsTotal]);
+
+  const addNewAlbum = (album: AlbumType) => {
+    setArrayOfAlbums((prevState) => [album, ...prevState]);
+  };
 
   if (loading) {
     return (
       <>
-        <AlbumAdd />
+        <AlbumAdd addNewAlbum={addNewAlbum} />
         <AlbumSkeleton />
         <AlbumSkeleton />
       </>
@@ -31,12 +48,10 @@ const AlbumWrapper: React.FC<AlbumWrapperProps> = ({ setAlbumsTotal }) => {
   }
 
   if (data && data.albums && data.albums.data) {
-    setAlbumsTotal(data.albums.data.length);
-
     return (
       <>
-        <AlbumAdd />
-        {data.albums.data.map((album) => {
+        <AlbumAdd addNewAlbum={addNewAlbum} />
+        {arrayOfAlbums.map((album) => {
           if (
             album &&
             album.id &&
@@ -68,6 +83,7 @@ const AlbumWrapper: React.FC<AlbumWrapperProps> = ({ setAlbumsTotal }) => {
 
   return null;
 };
+
 const Feed: React.FC<Props> = () => {
   const [selected, setSelected] = React.useState<string>('Albums');
   const [albumsTotal, setAlbumsTotal] = React.useState<number>(0);
