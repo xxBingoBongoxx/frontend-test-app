@@ -9,7 +9,7 @@ type Props = unknown;
 
 const RouterComponent: React.FC<Props> = () => {
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <Switch>
         <Route exact path={faqUrl}>
           <FAQ />
