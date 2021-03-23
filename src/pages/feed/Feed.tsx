@@ -9,11 +9,15 @@ import styles from './Feed.module.scss';
 
 type Props = unknown;
 
-type AlbumWrapperProps = {
+type AlbumsWrapperProps = {
   setAlbumsTotal: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const AlbumWrapper: React.FC<AlbumWrapperProps> = ({ setAlbumsTotal }) => {
+type PostsWrapperProps = {
+  setPostsTotal: React.Dispatch<React.SetStateAction<number>>;
+};
+
+const AlbumsWrapper: React.FC<AlbumsWrapperProps> = ({ setAlbumsTotal }) => {
   const [arrayOfAlbums, setArrayOfAlbums] = React.useState<AlbumType[]>([]);
 
   const { data, loading, error, fetchMore } = useGetAlbumsQuery({
@@ -96,13 +100,47 @@ const AlbumWrapper: React.FC<AlbumWrapperProps> = ({ setAlbumsTotal }) => {
   return null;
 };
 
+const PostsWrapper: React.FC<PostsWrapperProps> = ({ setPostsTotal }) => {
+  const [loading, setLoading] = React.useState<boolean>(true);
+
+  React.useEffect(() => {
+    setTimeout(() => setLoading(false), 2000);
+    setPostsTotal(6);
+  }, [setPostsTotal]);
+
+  if (loading) {
+    return (
+      <>
+        {new Array(3).fill(0).map((a, i) => (
+          <PostSkeleton key={`${a}${i}`} />
+        ))}
+      </>
+    );
+  }
+
+  return (
+    <>
+      {new Array(6).fill(0).map((a, i) => (
+        <Post
+          key={`${a}${i}`}
+          name="Ivan Ivanov"
+          title="Title"
+          content="Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
+            totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi archit veritatis et quasi arc..."
+        />
+      ))}
+    </>
+  );
+};
+
 const Feed: React.FC<Props> = () => {
   const [selected, setSelected] = React.useState<string>('Albums');
   const [albumsTotal, setAlbumsTotal] = React.useState<number>(0);
+  const [postsTotal, setPostsTotal] = React.useState<number>(0);
 
   const tabs = [
     { label: 'Albums', count: albumsTotal },
-    { label: 'Posts', count: 1 },
+    { label: 'Posts', count: postsTotal },
   ];
 
   return (
@@ -112,40 +150,10 @@ const Feed: React.FC<Props> = () => {
         <div className={styles.title}>Feed</div>
         <TabNav tabs={tabs} selected={selected} setSelected={setSelected} />
         <TabPanel isSelected={selected === tabs[0].label}>
-          <AlbumWrapper setAlbumsTotal={setAlbumsTotal} />
+          <AlbumsWrapper setAlbumsTotal={setAlbumsTotal} />
         </TabPanel>
         <TabPanel isSelected={selected === tabs[1].label}>
-          <Post
-            name="Ivan Ivanov"
-            title="Title"
-            content="Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-            totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi archit veritatis et quasi arc..."
-          />
-          <Post
-            name="Ivan Ivanov"
-            title="Title"
-            content="Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-            totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi archit veritatis et quasi arc..."
-          />
-          <Post
-            name="Ivan Ivanov"
-            title="Title"
-            content="Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-            totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi archit veritatis et quasi arc..."
-          />
-          <Post
-            name="Ivan Ivanov"
-            title="Title"
-            content="Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-            totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi archit veritatis et quasi arc..."
-          />
-          <Post
-            name="Ivan Ivanov"
-            title="Title"
-            content="Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-            totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi archit veritatis et quasi arc..."
-          />
-          <PostSkeleton />
+          <PostsWrapper setPostsTotal={setPostsTotal} />
         </TabPanel>
       </div>
     </>
