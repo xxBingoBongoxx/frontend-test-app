@@ -1,5 +1,5 @@
 import Album from './Album';
 import AlbumSkeleton from './AlbumSkeleton/AlbumSkeleton';
-import AlbumCreate from './AlbumCreate/AlbumCreate';
+import AlbumAdd from './AlbumAdd/AlbumAdd';
 
-export { Album, AlbumCreate, AlbumSkeleton };
+export { Album, AlbumAdd, AlbumSkeleton };

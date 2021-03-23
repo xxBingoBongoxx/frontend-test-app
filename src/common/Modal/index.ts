@@ -1,3 +1,4 @@
 import Modal from './Modal';
+import ModalAdd from './ModalAdd/ModalAdd';
 
-export default Modal;
+export { Modal, ModalAdd };

@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../../common/Header';
 import { TabNav, TabPanel } from '../../common/TabMenu';
-import { Album, AlbumSkeleton, AlbumCreate } from '../../common/Album';
+import { Album, AlbumSkeleton, AlbumAdd } from '../../common/Album';
 import { Post, PostSkeleton } from '../../common/Post';
 import { Photo, useGetAlbumsQuery } from '../../generated/graphql';
 import styles from './Feed.module.scss';
@@ -23,7 +23,7 @@ const AlbumWrapper: React.FC<AlbumWrapperProps> = ({ setAlbumsTotal }) => {
   if (loading) {
     return (
       <>
-        <AlbumCreate />
+        <AlbumAdd />
         <AlbumSkeleton />
         <AlbumSkeleton />
       </>
@@ -35,7 +35,7 @@ const AlbumWrapper: React.FC<AlbumWrapperProps> = ({ setAlbumsTotal }) => {
 
     return (
       <>
-        <AlbumCreate />
+        <AlbumAdd />
         {data.albums.data.map((album) => {
           if (
             album &&

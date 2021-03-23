@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Album.module.scss';
 import { Photo } from '../../generated/graphql';
 import { ReactComponent as More } from '../../assets/icons/More.svg';
-import Modal from '../Modal';
+import { Modal } from '../Modal';
 
 type AlbumProps = {
   name: string;
