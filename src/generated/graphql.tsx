@@ -524,6 +524,19 @@ export enum CacheControlScope {
 }
 
 
+export type CreateAlbumMutationVariables = Exact<{
+  title: Scalars['String'];
+}>;
+
+
+export type CreateAlbumMutation = (
+  { __typename?: 'Mutation' }
+  & { createAlbum?: Maybe<(
+    { __typename?: 'Album' }
+    & Pick<Album, 'id' | 'title'>
+  )> }
+);
+
 export type GetAlbumsQueryVariables = Exact<{
   page: Scalars['Int'];
   limit: Scalars['Int'];
@@ -564,6 +577,40 @@ export type GetAlbumsQuery = (
 );
 
 
+export const CreateAlbumDocument = gql`
+    mutation CreateAlbum($title: String!) {
+  createAlbum(input: {userId: 1, title: $title}) {
+    id
+    title
+  }
+}
+    `;
+export type CreateAlbumMutationFn = Apollo.MutationFunction<CreateAlbumMutation, CreateAlbumMutationVariables>;
+
+/**
+ * __useCreateAlbumMutation__
+ *
+ * To run a mutation, you first call `useCreateAlbumMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateAlbumMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createAlbumMutation, { data, loading, error }] = useCreateAlbumMutation({
+ *   variables: {
+ *      title: // value for 'title'
+ *   },
+ * });
+ */
+export function useCreateAlbumMutation(baseOptions?: Apollo.MutationHookOptions<CreateAlbumMutation, CreateAlbumMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateAlbumMutation, CreateAlbumMutationVariables>(CreateAlbumDocument, options);
+      }
+export type CreateAlbumMutationHookResult = ReturnType<typeof useCreateAlbumMutation>;
+export type CreateAlbumMutationResult = Apollo.MutationResult<CreateAlbumMutation>;
+export type CreateAlbumMutationOptions = Apollo.BaseMutationOptions<CreateAlbumMutation, CreateAlbumMutationVariables>;
 export const GetAlbumsDocument = gql`
     query getAlbums($page: Int!, $limit: Int!) {
   albums(options: {paginate: {page: $page, limit: $limit}}) {

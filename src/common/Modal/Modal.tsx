@@ -30,14 +30,14 @@ const Modal: React.FC<ModalProps> = ({ data, setOpen }) => {
     setIndex((prevState) => prevState - 1);
   };
 
-  const handleClose = () => {
+  const handleClose = React.useCallback(() => {
     const scrollY = document.body.style.top;
     document.body.style.position = '';
     document.body.style.top = '';
     window.scrollTo(0, parseInt(scrollY || '0') * -1);
     document.body.style.overflow = 'scroll';
     setOpen(false);
-  };
+  }, [setOpen]);
 
   const handleUserKeyPress = React.useCallback(
     (event: KeyboardEvent) => {

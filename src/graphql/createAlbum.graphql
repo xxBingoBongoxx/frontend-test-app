@@ -1,0 +1,6 @@
+mutation CreateAlbum($title: String!) {
+    createAlbum(input: { userId: 1, title: $title }) {
+        id
+        title
+    }
+}
