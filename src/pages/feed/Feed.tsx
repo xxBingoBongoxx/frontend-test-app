@@ -7,8 +7,6 @@ import { Post, PostSkeleton } from '../../common/Post';
 import { Photo, useGetAlbumsQuery } from '../../generated/graphql';
 import styles from './Feed.module.scss';
 
-type Props = unknown;
-
 type AlbumsWrapperProps = {
   setAlbumsTotal: React.Dispatch<React.SetStateAction<number>>;
 };
@@ -104,8 +102,10 @@ const PostsWrapper: React.FC<PostsWrapperProps> = ({ setPostsTotal }) => {
   const [loading, setLoading] = React.useState<boolean>(true);
 
   React.useEffect(() => {
-    setTimeout(() => setLoading(false), 2000);
-    setPostsTotal(6);
+    setTimeout(() => {
+      setLoading(false);
+      setPostsTotal(6);
+    }, 2000);
   }, [setPostsTotal]);
 
   if (loading) {
@@ -133,7 +133,7 @@ const PostsWrapper: React.FC<PostsWrapperProps> = ({ setPostsTotal }) => {
   );
 };
 
-const Feed: React.FC<Props> = () => {
+const Feed: React.FC = () => {
   const [selected, setSelected] = React.useState<string>('Albums');
   const [albumsTotal, setAlbumsTotal] = React.useState<number>(0);
   const [postsTotal, setPostsTotal] = React.useState<number>(0);
@@ -148,7 +148,7 @@ const Feed: React.FC<Props> = () => {
       <Header />
       <div className={styles.content}>
         <div className={styles.title}>Feed</div>
-        <TabNav tabs={tabs} selected={selected} setSelected={setSelected} />
+        <TabNav tabs={tabs} selected={selected} setSelected={setSelected} chip />
         <TabPanel isSelected={selected === tabs[0].label}>
           <AlbumsWrapper setAlbumsTotal={setAlbumsTotal} />
         </TabPanel>

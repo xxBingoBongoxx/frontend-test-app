@@ -10,9 +10,10 @@ type TabNavProps = {
   tabs: { label: string; count: number }[];
   selected: string;
   setSelected: React.Dispatch<React.SetStateAction<string>>;
+  chip?: boolean;
 };
 
-export const TabNav: React.FC<TabNavProps> = ({ tabs, selected, setSelected, children }) => {
+export const TabNav: React.FC<TabNavProps> = ({ tabs, selected, setSelected, chip }) => {
   return (
     <div className={styles.tabMenu}>
       {tabs.map((tab) => {
@@ -21,14 +22,14 @@ export const TabNav: React.FC<TabNavProps> = ({ tabs, selected, setSelected, chi
           return (
             <div key={tab.label} className={styles.tabItem} onClick={() => setSelected(tab.label)}>
               <div className={styles.tabText}>{tab.label}</div>
-              <div className={styles.tabCount}>{tab.count}</div>
+              {chip && <div className={styles.tabCount}>{tab.count}</div>}
             </div>
           );
         }
         return (
           <div key={tab.label} className={styles.tabItemDisabled} onClick={() => setSelected(tab.label)}>
             <div className={styles.tabTextDisabled}>{tab.label}</div>
-            <div className={styles.tabCountDisabled}>{tab.count}</div>
+            {chip && <div className={styles.tabCountDisabled}>{tab.count}</div>}
           </div>
         );
       })}
