@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './AlbumAdd.module.scss';
-import { ReactComponent as Union } from '../../../assets/icons/Union.svg';
+import { ReactComponent as UnionIcon } from '../../../assets/icons/Union.svg';
 import { ModalAdd } from '../../Modal';
 import { Album } from '../../../generated/graphql';
 
@@ -23,7 +23,7 @@ const AlbumAdd: React.FC<AlbumAddProps> = ({ addNewAlbum }) => {
     <>
       <div className={styles.container} onClick={openModal}>
         <div className={styles.info}>
-          <Union />
+          <UnionIcon />
           <div>Add album</div>
         </div>
       </div>

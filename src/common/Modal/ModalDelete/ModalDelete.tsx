@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './ModalDelete.module.scss';
-import { ReactComponent as Close } from '../../../assets/icons/Close.svg';
-import { ReactComponent as Delete } from '../../../assets/icons/Delete.svg';
+import { ReactComponent as CloseIcon } from '../../../assets/icons/Close.svg';
+import { ReactComponent as DeleteIcon } from '../../../assets/icons/Delete.svg';
 
 type ModalDeleteProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -38,15 +38,15 @@ const ModalDelete: React.FC<ModalDeleteProps> = ({ setOpen, handleDelete }) => {
     <div className={styles.modal__wrapper}>
       <div className={styles.modal__content}>
         <div className={styles.modal__deleteIcon}>
-          <Delete />
+          <DeleteIcon />
         </div>
-        <div className={styles.modal__title}>Delete album</div>
+        <div className={styles.modal__title}>DeleteIcon album</div>
         <div className={styles.modal__subtitle}>Album will be permanently lost</div>
         <button className={styles.modal__button} onClick={handleDelete}>
-          Delete
+          DeleteIcon
         </button>
       </div>
-      <Close className={styles.modal__iconClose} onClick={handleClose} />
+      <CloseIcon className={styles.modal__iconClose} onClick={handleClose} />
     </div>
   );
 };

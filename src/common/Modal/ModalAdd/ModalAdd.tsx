@@ -1,7 +1,7 @@
 import React, { FormEvent } from 'react';
 import { Album, Photo, useCreateAlbumMutation } from '../../../generated/graphql';
 import styles from './ModalAdd.module.scss';
-import { ReactComponent as Close } from '../../../assets/icons/Close.svg';
+import { ReactComponent as CloseIcon } from '../../../assets/icons/Close.svg';
 
 type ModalAddProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -94,7 +94,7 @@ const ModalAdd: React.FC<ModalAddProps> = ({ setOpen, addNewAlbum }) => {
           </button>
         </form>
       </div>
-      <Close className={styles.modal__iconClose} onClick={handleClose} />
+      <CloseIcon className={styles.modal__iconClose} onClick={handleClose} />
     </div>
   );
 };

@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './Modal.module.scss';
-import { ReactComponent as Close } from '../../assets/icons/Close.svg';
-import { ReactComponent as Right } from '../../assets/icons/Right.svg';
-import { ReactComponent as Left } from '../../assets/icons/Left.svg';
-import { ReactComponent as Link } from '../../assets/icons/Link.svg';
+import { ReactComponent as CloseIcon } from '../../assets/icons/Close.svg';
+import { ReactComponent as RightIcon } from '../../assets/icons/Right.svg';
+import { ReactComponent as LeftIcon } from '../../assets/icons/Left.svg';
+import { ReactComponent as LinkIcon } from '../../assets/icons/Link.svg';
 import { Photo } from '../../generated/graphql';
 
 type ModalProps = {
@@ -65,14 +65,14 @@ const Modal: React.FC<ModalProps> = ({ data, setOpen }) => {
 
   return (
     <div className={styles.modal__wrapper}>
-      <Left className={styles.modal__iconLeft} onClick={decrement} />
-      <Right className={styles.modal__iconRight} onClick={increment} />
-      <Link className={styles.modal__iconLink} />
+      <LeftIcon className={styles.modal__iconLeft} onClick={decrement} />
+      <RightIcon className={styles.modal__iconRight} onClick={increment} />
+      <LinkIcon className={styles.modal__iconLink} />
       <div className={styles.modal__content}>
         <img className={styles.modal__photo} src={data[index].thumbnailUrl || ''} alt="photo" />
       </div>
       <div className={styles.modal__title}>{data[index].title}</div>
-      <Close className={styles.modal__iconClose} onClick={handleClose} />
+      <CloseIcon className={styles.modal__iconClose} onClick={handleClose} />
     </div>
   );
 };
