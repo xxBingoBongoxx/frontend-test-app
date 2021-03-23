@@ -1,22 +1,28 @@
 import React from 'react';
 import styles from './Album.module.scss';
-import { Photo } from '../../generated/graphql';
+import { Photo, Scalars } from '../../generated/graphql';
 import { ReactComponent as More } from '../../assets/icons/More.svg';
 import { Modal } from '../Modal';
 
 type AlbumProps = {
+  id: Scalars['ID'];
   name: string;
   title: string;
   logo: string;
   data: Photo[];
+  deleteAlbum: (albumId: Scalars['ID']) => void;
 };
 
-const Album: React.FC<AlbumProps> = ({ name, title, logo, data }) => {
+const Album: React.FC<AlbumProps> = ({ id, name, title, logo, data, deleteAlbum }) => {
   const [showMore, setMore] = React.useState<boolean>(false);
   const [open, setOpen] = React.useState<boolean>(false);
 
   const handleClick = () => {
     setMore(!showMore);
+  };
+
+  const handleDelete = () => {
+    deleteAlbum(id);
   };
 
   const openModal = () => {
@@ -35,9 +41,11 @@ const Album: React.FC<AlbumProps> = ({ name, title, logo, data }) => {
         <div className={styles.album__text}>{title}</div>
       </div>
       {showMore ? (
-        <div className={`${styles.album__more} ${styles.dropdownContent}`} onClick={handleClick}>
+        <div className={styles.album__more} onClick={handleClick}>
           <More />
-          <div>Delete</div>
+          <div className={styles.dropdownContent} onClick={handleDelete}>
+            <div>Delete</div>
+          </div>
         </div>
       ) : (
         <div className={styles.album__more} onClick={handleClick}>

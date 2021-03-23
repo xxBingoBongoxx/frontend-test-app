@@ -2,7 +2,7 @@ import React from 'react';
 import Header from '../../common/Header';
 import { TabNav, TabPanel } from '../../common/TabMenu';
 import { Album, AlbumSkeleton, AlbumAdd } from '../../common/Album';
-import { Album as AlbumType } from '../../generated/graphql';
+import { Album as AlbumType, Scalars } from '../../generated/graphql';
 import { Post, PostSkeleton } from '../../common/Post';
 import { Photo, useGetAlbumsQuery } from '../../generated/graphql';
 import styles from './Feed.module.scss';
@@ -37,6 +37,10 @@ const AlbumWrapper: React.FC<AlbumWrapperProps> = ({ setAlbumsTotal }) => {
     setArrayOfAlbums((prevState) => [album, ...prevState]);
   };
 
+  const deleteAlbum = (albumId: Scalars['ID']) => {
+    setArrayOfAlbums(arrayOfAlbums.filter((album) => album.id !== albumId));
+  };
+
   if (loading) {
     return (
       <>
@@ -67,7 +71,15 @@ const AlbumWrapper: React.FC<AlbumWrapperProps> = ({ setAlbumsTotal }) => {
             const { thumbnailUrl } = album.photos.data[0];
 
             return (
-              <Album key={album.id} name={name} title={title} logo={thumbnailUrl} data={album.photos.data as Photo[]} />
+              <Album
+                key={`${album.id} ${album.title}`}
+                id={album.id}
+                name={name}
+                title={title}
+                logo={thumbnailUrl}
+                data={album.photos.data as Photo[]}
+                deleteAlbum={deleteAlbum}
+              />
             );
           }
 
