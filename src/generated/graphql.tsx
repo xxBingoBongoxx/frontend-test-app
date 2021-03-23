@@ -541,6 +541,16 @@ export type CreateAlbumMutation = (
   )> }
 );
 
+export type DeleteAlbumMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteAlbumMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteAlbum'>
+);
+
 export type GetAlbumsQueryVariables = Exact<{
   page: Scalars['Int'];
   limit: Scalars['Int'];
@@ -618,6 +628,37 @@ export function useCreateAlbumMutation(baseOptions?: Apollo.MutationHookOptions<
 export type CreateAlbumMutationHookResult = ReturnType<typeof useCreateAlbumMutation>;
 export type CreateAlbumMutationResult = Apollo.MutationResult<CreateAlbumMutation>;
 export type CreateAlbumMutationOptions = Apollo.BaseMutationOptions<CreateAlbumMutation, CreateAlbumMutationVariables>;
+export const DeleteAlbumDocument = gql`
+    mutation DeleteAlbum($id: ID!) {
+  deleteAlbum(id: $id)
+}
+    `;
+export type DeleteAlbumMutationFn = Apollo.MutationFunction<DeleteAlbumMutation, DeleteAlbumMutationVariables>;
+
+/**
+ * __useDeleteAlbumMutation__
+ *
+ * To run a mutation, you first call `useDeleteAlbumMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteAlbumMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteAlbumMutation, { data, loading, error }] = useDeleteAlbumMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteAlbumMutation(baseOptions?: Apollo.MutationHookOptions<DeleteAlbumMutation, DeleteAlbumMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteAlbumMutation, DeleteAlbumMutationVariables>(DeleteAlbumDocument, options);
+      }
+export type DeleteAlbumMutationHookResult = ReturnType<typeof useDeleteAlbumMutation>;
+export type DeleteAlbumMutationResult = Apollo.MutationResult<DeleteAlbumMutation>;
+export type DeleteAlbumMutationOptions = Apollo.BaseMutationOptions<DeleteAlbumMutation, DeleteAlbumMutationVariables>;
 export const GetAlbumsDocument = gql`
     query getAlbums($page: Int!, $limit: Int!) {
   albums(options: {paginate: {page: $page, limit: $limit}}) {

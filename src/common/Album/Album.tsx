@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Album.module.scss';
-import { Photo, Scalars } from '../../generated/graphql';
+import { Photo, Scalars, useDeleteAlbumMutation } from '../../generated/graphql';
 import { ReactComponent as More } from '../../assets/icons/More.svg';
 import { Modal, ModalDelete } from '../Modal';
 
@@ -18,12 +18,26 @@ const Album: React.FC<AlbumProps> = ({ id, name, title, logo, data, deleteAlbum 
   const [openModal, setOpenModal] = React.useState<boolean>(false);
   const [openModalDelete, setOpenModalDelete] = React.useState<boolean>(false);
 
+  const [deleteAlbumMutation] = useDeleteAlbumMutation();
+
   const handleClick = () => {
     setMore(!showMore);
   };
 
-  const handleDelete = () => {
-    deleteAlbum(id);
+  const handleDelete = async () => {
+    try {
+      const response = await deleteAlbumMutation({
+        variables: {
+          id,
+        },
+      });
+      if (response.data && response.data?.deleteAlbum) {
+        deleteAlbum(id);
+      }
+    } catch (err) {
+      const errMessage = err.message.toString();
+      console.error(errMessage);
+    }
   };
 
   const memorizeScrollPosition = () => {
