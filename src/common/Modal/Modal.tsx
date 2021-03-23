@@ -12,9 +12,23 @@ type ModalProps = {
 };
 
 const Modal: React.FC<ModalProps> = ({ data, setOpen }) => {
-  React.useEffect(() => {
-    document.body.style.overflow = 'hidden';
-  });
+  const [index, setIndex] = React.useState<number>(0);
+
+  const increment = () => {
+    if (index === data.length - 1) {
+      setIndex(0);
+      return;
+    }
+    setIndex((prevState) => prevState + 1);
+  };
+
+  const decrement = () => {
+    if (index === 0) {
+      setIndex(data.length - 1);
+      return;
+    }
+    setIndex((prevState) => prevState - 1);
+  };
 
   const handleClose = () => {
     const scrollY = document.body.style.top;
@@ -25,21 +39,29 @@ const Modal: React.FC<ModalProps> = ({ data, setOpen }) => {
     setOpen(false);
   };
 
-  const [index, setIndex] = React.useState<number>(0);
+  const handleUserKeyPress = React.useCallback(
+    (event: KeyboardEvent) => {
+      const { code } = event;
+      switch (code) {
+        case 'ArrowLeft':
+          decrement();
+          break;
+        case 'ArrowRight':
+          increment();
+          break;
+        case 'Escape':
+          handleClose();
+          break;
+      }
+    },
+    [increment, decrement, handleClose],
+  );
 
-  const increment = () => {
-    if (index === data.length - 1) {
-      setIndex(0);
-    }
-    setIndex((prevState) => prevState + 1);
-  };
-
-  const decrement = () => {
-    if (index === 0) {
-      setIndex(data.length - 1);
-    }
-    setIndex((prevState) => prevState - 1);
-  };
+  React.useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleUserKeyPress);
+    return () => window.removeEventListener('keydown', handleUserKeyPress);
+  }, [handleUserKeyPress]);
 
   return (
     <div className={styles.modal__wrapper}>
