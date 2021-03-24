@@ -17,7 +17,7 @@ type PostsWrapperProps = {
 
 const AlbumsWrapper: React.FC<AlbumsWrapperProps> = ({ setAlbumsTotal }) => {
   const [arrayOfAlbums, setArrayOfAlbums] = React.useState<AlbumType[]>([]);
-
+  const [canLoadMore, setLoadMore] = React.useState<boolean>(true);
   const { data, loading, error, fetchMore } = useGetAlbumsQuery({
     variables: {
       page: 1,
@@ -31,9 +31,38 @@ const AlbumsWrapper: React.FC<AlbumsWrapperProps> = ({ setAlbumsTotal }) => {
     },
   });
 
+  const loadMore = React.useCallback(async () => {
+    if (
+      canLoadMore &&
+      window.innerHeight + document.documentElement.scrollTop >= Number(document.scrollingElement?.scrollHeight)
+    ) {
+      try {
+        const response = await fetchMore({
+          variables: {
+            page: 2,
+            limit: 20,
+          },
+        });
+        if (response && response.data && response.data.albums && response.data.albums.data) {
+          const { data } = response.data.albums;
+          setArrayOfAlbums((prevState) => [...prevState, ...(data as AlbumType[])]);
+          setLoadMore(false);
+        }
+      } catch (err) {
+        const errMessage = err.message.toString();
+        console.error(errMessage);
+      }
+    }
+  }, [canLoadMore, fetchMore]);
+
   React.useEffect(() => {
     setAlbumsTotal(arrayOfAlbums.length);
-  }, [arrayOfAlbums, setAlbumsTotal]);
+    window.addEventListener('scroll', loadMore);
+
+    return () => {
+      window.removeEventListener('scroll', loadMore);
+    };
+  }, [arrayOfAlbums, loadMore, setAlbumsTotal]);
 
   const addNewAlbum = (album: AlbumType) => {
     setArrayOfAlbums((prevState) => [album, ...prevState]);
